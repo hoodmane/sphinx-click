@@ -243,6 +243,8 @@ class CommandTestCase(unittest.TestCase):
             '--only-show-default',
             show_default="Some default computed at runtime!",
         )
+        @click.option('--string-default', default="abc", show_default=True)
+        @click.option('--empty-string-default', default="", show_default=True)
         def foobar(bar):
             """A sample command."""
             pass
@@ -277,6 +279,14 @@ class CommandTestCase(unittest.TestCase):
         .. option:: --only-show-default <only_show_default>
 
             :default: ``Some default computed at runtime!``
+
+        .. option:: --string-default <string_default>
+
+            :default: ``'abc'``
+
+        .. option:: --empty-string-default <empty_string_default>
+
+            :default: ``''``
         """
             ).lstrip(),
             '\n'.join(output),
