@@ -110,14 +110,12 @@ def _get_help_record(ctx: click.Context, opt: click.Option) -> ty.Tuple[str, str
         # documentation thus needs a manually written string.
         extras.append(':default: ``%s``' % show_default)
     elif show_default and opt.default is not None:
-        extras.append(
-            ':default: ``%s``'
-            % (
-                ', '.join(str(d) for d in opt.default)
-                if isinstance(opt.default, (list, tuple))
-                else repr(opt.default),
-            )
-        )
+        if isinstance(opt.default, (list, tuple)):
+            default = ', '.join(str(d) for d in opt.default)
+        else:
+            default = repr(opt.default)
+        if default.strip():
+            extras.append(f":default: ``{default}``")
 
     if isinstance(opt.type, click.Choice):
         extras.append(':options: %s' % ' | '.join(str(x) for x in opt.type.choices))
